@@ -46,7 +46,7 @@ xcodebuild -create-xcframework \
     -framework variants/appletvsimulator/TCCore.framework \
     -output "$xcframework_path" &> /dev/null
 
-# rm -rf variants
+rm -rf variants
 popd > /dev/null
 
 pushd $execution_dir > /dev/null
