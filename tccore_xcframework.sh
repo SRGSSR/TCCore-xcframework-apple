@@ -21,22 +21,22 @@ pushd "$framework_dir" > /dev/null
 echo "Building iphoneos variant..."
 mkdir -p variants/iphoneos
 xcodebuild archive -scheme TCCore -sdk iphoneos &> /dev/null
-mv TCCore.framework variants/iphoneos
+cp -r TCCore.framework variants/iphoneos
 
 echo "Building iphonesimulator variant..."
 mkdir -p variants/iphonesimulator
 xcodebuild archive -scheme TCCore -sdk iphonesimulator &> /dev/null
-mv TCCore.framework variants/iphonesimulator
+cp -r TCCore.framework variants/iphonesimulator
 
 echo "Building appletvos variant..."
 mkdir -p variants/appletvos
 xcodebuild archive -scheme TCCore -sdk appletvos &> /dev/null
-mv TCCore.framework variants/appletvos
+cp -r TCCore.framework variants/appletvos
 
 echo "Building appletvsimulator variant..."
 mkdir -p variants/appletvsimulator
 xcodebuild archive -scheme TCCore -sdk appletvsimulator &> /dev/null
-mv TCCore.framework variants/appletvsimulator
+cp -r TCCore.framework variants/appletvsimulator
 
 echo "Packaging XCFramework..."
 xcodebuild -create-xcframework \
@@ -46,7 +46,7 @@ xcodebuild -create-xcframework \
     -framework variants/appletvsimulator/TCCore.framework \
     -output "$xcframework_path" &> /dev/null
 
-rm -rf variants
+# rm -rf variants
 popd > /dev/null
 
 pushd $execution_dir > /dev/null
