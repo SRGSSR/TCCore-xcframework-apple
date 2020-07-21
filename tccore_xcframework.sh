@@ -8,36 +8,35 @@ xcframework_zip_name="$xcframework_name.zip"
 xcframework_path="$execution_dir/$xcframework_name"
 package_file_path="$execution_dir/Package.swift"
 
-main_dir="$1/TagCommander"
-framework_dir="$main_dir/TCCore"
+framework_dir="$1/TagCommander"
 if [ ! -d "$framework_dir" ]; then
     echo "Please provide a correct Tag Commander local source code repository file path"
     exit 0
 fi
 
-pushd "$framework_dir" > /dev/null
-
 rm -rf "$xcframework_path"
 
-echo "Bulding iphoneos variant..."
+pushd "$framework_dir" > /dev/null
+
+echo "Building iphoneos variant..."
 mkdir -p variants/iphoneos
-xcodebuild -sdk iphoneos &> /dev/null
-mv "$main_dir/TCCore.framework" variants/iphoneos
+xcodebuild -scheme TCCore -sdk iphoneos &> /dev/null
+mv TCCore.framework variants/iphoneos
 
-echo "Bulding iphonesimulator variant..."
+echo "Building iphonesimulator variant..."
 mkdir -p variants/iphonesimulator
-xcodebuild -sdk iphonesimulator &> /dev/null
-mv "$main_dir/TCCore.framework" variants/iphonesimulator
+xcodebuild -scheme TCCore -sdk iphonesimulator &> /dev/null
+mv TCCore.framework variants/iphonesimulator
 
-echo "Bulding appletvos variant..."
+echo "Building appletvos variant..."
 mkdir -p variants/appletvos
-xcodebuild -sdk appletvos &> /dev/null
-mv "$main_dir/TCCore.framework" variants/appletvos
+xcodebuild -scheme TCCore -sdk appletvos &> /dev/null
+mv TCCore.framework variants/appletvos
 
-echo "Bulding appletvsimulator variant..."
+echo "Building appletvsimulator variant..."
 mkdir -p variants/appletvsimulator
-xcodebuild -sdk appletvsimulator &> /dev/null
-mv "$main_dir/TCCore.framework" variants/appletvsimulator
+xcodebuild -scheme TCCore -sdk appletvsimulator &> /dev/null
+mv TCCore.framework variants/appletvsimulator
 
 echo "Packaging XCFramework..."
 xcodebuild -create-xcframework \
