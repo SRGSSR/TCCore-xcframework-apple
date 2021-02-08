@@ -2,7 +2,7 @@
 
 # `--no-debug-symbols` option does not include dSYMs and BCSymbolMaps. Optional, default: debug symbols included.
 
-execution_dir=`pwd`
+script_dir=`cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd`
 
 scheme_name="TCCore"
 framework_name="$scheme_name.framework"
@@ -10,8 +10,8 @@ xcframework_name="$scheme_name.xcframework"
 xcframework_zip_name="$xcframework_name.zip"
 package_file_name="Package.swift"
 
-xcframework_path="$execution_dir/$xcframework_name"
-package_file_path="$execution_dir/$package_file_name"
+xcframework_path="$script_dir/$xcframework_name"
+package_file_path="$script_dir/$package_file_name"
 
 xcarchive_framework="Products/Library/Frameworks/$framework_name"
 xcarchive_dsym="dSYMs/$framework_name.dSYM"
@@ -27,10 +27,6 @@ framework_dir="$absolute_dir/TagCommander"
 if [ ! -d "$framework_dir" ]; then
     echo "Please provide a correct Tag Commander local source code repository file path"
     exit 0
-fi
-
-if [ ! -f "$package_file_path" ]; then
-    echo "Next time, execute the script in the working directory, and the Package.swift file will be updated"
 fi
 
 rm -rf "$xcframework_path"
@@ -88,12 +84,12 @@ rm "$framework_name"
 
 popd > /dev/null
 
-pushd "$execution_dir" > /dev/null
+pushd "$script_dir" > /dev/null
 
 zip -r "$xcframework_zip_name" "$xcframework_name" > /dev/null
 rm -rf "$xcframework_name"
 
-xcframework_zip_path="$execution_dir/$xcframework_zip_name"
+xcframework_zip_path="$script_dir/$xcframework_zip_name"
 if [ ! -f "$xcframework_zip_path" ]; then
     echo "XCFramework creation failed."
     exit 1
