@@ -99,7 +99,7 @@ if [ ! -f "$xcframework_zip_path" ]; then
     exit 1
 fi
 
-# Currently a Package.swift file must be found for the command to succeed
+# Currently a Package.swift file must be found for the swift package command to succeed
 dummy_package_file_created=false
 if [ ! -f "$package_file_path" ]; then
     touch "$package_file_path"
@@ -122,7 +122,8 @@ echo ""
 echo "The XCFramework zip is saved at $xcframework_zip_path."
 echo "The XCFramework zip hash is $hash$saved_information."
 echo ""
-echo "Please keep the zip and its hash in a safe place, as regenerating a new zip will produce a new hash."
+echo "Please keep the zip and its hash in a safe place, as regenerating a new zip will produce a new hash. The Package.swift file"
+echo "was automatically updated with the new hash, please manually commit the changes."
 
 if $dummy_package_file_created; then
     rm "$package_file_path"
