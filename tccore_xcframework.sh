@@ -22,7 +22,7 @@ iphonesimulator_archive="archives/iphonesimulator.xcarchive"
 appletvos_archive="archives/appletvos.xcarchive"
 appletvsimulator_archive="archives/appletvsimulator.xcarchive"
 
-absolute_dir=`cd $1 > /dev/null; pwd`
+absolute_dir=`cd "${@: -1}" > /dev/null; pwd`
 framework_dir="$absolute_dir/TagCommander"
 if [ ! -d "$framework_dir" ]; then
     echo "Please provide a correct Tag Commander local source code repository file path"
