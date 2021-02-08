@@ -19,13 +19,13 @@ To build the XCFramework:
 2. Switch to the tag you want to produce an XCFramework for: `$ git switch --detach <tag>`
 3. Use the script to package the framework, providing the checked out repository path as parameter: `$ ./tccore_xcframework.sh /path/to/repository`
 
-If everything goes well a zip of the XCFramework will be generated where the script was executed, with the corresponding checksum displayed. **Save the binary zip and the checksum somewhere safe.**
+If everything goes well a zip of the XCFramework will be generated where the script was executed, with the corresponding checksum displayed and inserted into the `Package.swift` available at the same location. **You should save the binary zip and the checksum somewhere safe.**
 
 ### Make the XCFramework available
 
 To make the generated framework available:
 
-1. Update the `Package.swift` in this repository with the framework version number and the checksum of the zip you just generated.
+1. Update the `Package.swift` in this repository with the framework version number. The checksum has been automatically inserted when running the script, see above.
 2. Commit the changes on `master` and create a corresponding tag.
 3. Push the commit and the tag to GitHub.
 4. Attach the binary to the tag on GitHub.
