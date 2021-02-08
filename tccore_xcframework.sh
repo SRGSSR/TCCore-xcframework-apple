@@ -92,6 +92,12 @@ pushd "$execution_dir" > /dev/null
 zip -r "$xcframework_zip_name" "$xcframework_name" > /dev/null
 rm -rf "$xcframework_name"
 
+xcframework_zip_path="$execution_dir/$xcframework_zip_name"
+if [ ! -f "$xcframework_zip_path" ]; then
+    echo "XCFramework creation failed."
+    exit 1
+fi
+
 # Currently a Package.swift file must be found for the command to succeed
 dummy_package_file_created=false
 if [ ! -f "$package_file_path" ]; then
@@ -99,24 +105,16 @@ if [ ! -f "$package_file_path" ]; then
     dummy_package_file_created=true
 fi
 
-xcframework_zip_path="NaN"
-hash="NaN"
-saved_information=""
+hash=`swift package compute-checksum "$xcframework_zip_name"`
 
-if [ -f "$xcframework_zip_name" ]; then
-    xcframework_zip_path="$execution_dir/$xcframework_zip_name"
+if ! $dummy_package_file_created; then
+    old_hash=$(grep 'checksum: String =' $package_file_path)
+    old_hash="$(echo -e "${old_hash}" | sed -e 's/^[[:space:]]*//')"
 
-    hash=`swift package compute-checksum "$xcframework_zip_name"`
+    new_hash="static let checksum: String = \"$hash\""
+    sed -i "" "s/$old_hash/$new_hash/g" $package_file_path # -i "" on BSD, -i -e on GNU
 
-    if ! $dummy_package_file_created; then
-        old_hash=$(grep 'checksum: String =' $package_file_path)
-        old_hash="$(echo -e "${old_hash}" | sed -e 's/^[[:space:]]*//')"
-
-        new_hash="static let checksum: String = \"$hash\""
-        sed -i "" "s/$old_hash/$new_hash/g" $package_file_path # -i "" on BSD, -i -e on GNU
-
-        saved_information=", saved in $package_file_name"
-    fi
+    saved_information=", saved in $package_file_name"
 fi
 
 echo ""
