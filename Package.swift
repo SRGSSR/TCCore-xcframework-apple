@@ -3,15 +3,15 @@
 import PackageDescription
 
 struct PackageMetadata {
-    static let version: String = "4.5.4-srg5"
-    static let checksum: String = "c71ef8b9985aea2af64c7bcf3474c185b9f7951a271e6b1d429a43ae6da760f6"
+    static let version: String = "5.1.1"
+    static let checksum: String = "68337e3e143b9bea67203e29af81035a00253305607d250d3de384266afe754f"
 }
 
 let package = Package(
     name: "TCCore",
     platforms: [
-        .iOS(.v9),
-        .tvOS(.v9)
+        .iOS(.v12),
+        .tvOS(.v12)
     ],
     products: [
         .library(

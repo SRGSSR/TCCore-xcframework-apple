@@ -1,33 +1,20 @@
-TCCore XCFramework
-==================
+# TCCore XCFramework
 
-XCFramework binaries are currently not provided by Tag Commander. Until they are this repository provides XCFrameworks for versions we use at SRG SSR, with a Swift Package Manager manifest for easy integration in projects. Binaries are currently packaged for iOS and tvOS, and built from source since we had to implement tvOS support ourselves.
+XCFramework binaries are currently not provided by Tag Commander via SPM. Until they are this repository provides XCFrameworks for versions we use at SRG SSR, with a Swift Package Manager manifest for easy integration in projects.
 
 ## Integration
 
 Use [Swift Package Manager](https://swift.org/package-manager) directly [within Xcode](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app). You can also declare the library as a dependency of another one directly in the associated `Package.swift` manifest.
 
-## Generation
-
-We have a quite recent [mirror of the source code](https://github.com/SRGSSR/tagcommander-src-apple), kept private, which can be used to build all binary flavors, then combined as an XCFramework.
-
-### Building the XCFramework
-
-To build the XCFramework:
-
-1. Clone the Tag Commander source code repository: `$ git clone https://github.com/SRGSSR/tagcommander-src-apple.git`.
-2. Switch to the tag you want to produce an XCFramework for: `$ git switch --detach <tag>`
-3. Use the script to package the framework, providing the checked out repository path as parameter: `$ ./tccore_xcframework.sh /path/to/repository`
-
-If everything goes well a zip of the XCFramework will be generated where the script was executed, with the corresponding checksum displayed and inserted into the `Package.swift` available at the same location. **You should save the binary zip and the checksum somewhere safe.**
-
-### Make the XCFramework available
+## Making the XCFramework available
 
 To make the generated framework available:
 
-1. Update the `Package.swift` in this repository with the framework version number. The checksum has been automatically inserted when running the script, see above.
-2. Commit the changes on `master` and create a corresponding tag.
-3. Push the commit and the tag to GitHub.
-4. Attach the binary to the tag on GitHub.
+1. Download zipped binaries from [Commanders Act official repository](https://github.com/CommandersAct/iOSV5) and rename the zip as `TCCore.xcframework.zip`.
+2. Update `Package.swift` in this repository with the framework version number. 
+3. Run `swift package compute-checksum TCCore.xcframework.zip` to compute the checksum and insert it into `Package.swift`.
+4. Commit the changes on `master` and create a corresponding tag.
+5. Push the commit and the tag to GitHub.
+6. Attach the binary to the tag on GitHub.
 
 Do not commit the binaries in the repository, as this would slow done checkouts made by SPM as the repository grows.
